@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xulqna.Data.Contexts;
+using Xulqna.Data.IRepositories;
+using Xulqna.Data.Repositories;
+using Xulqna.Service.Interfaces;
+using Xulqna.Service.Services;
 
 namespace Xulqna.Api
 {
@@ -26,12 +32,24 @@ namespace Xulqna.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<XulqnaDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Xulqna"));
+            });
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Xulqna.Api", Version = "v1" });
             });
+
+            // custom services
+            services.AddScoped<IStudentRepository, StudentRepostitory>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+
+
+            services.AddScoped<IStudentService, StudentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
