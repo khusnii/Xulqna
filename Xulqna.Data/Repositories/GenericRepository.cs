@@ -15,7 +15,7 @@ namespace Xulqna.Data.Repositories
 #pragma warning disable
 
         internal XulqnaDbContext dbContext;
-        private DbSet<T> dbSet;
+        internal DbSet<T> dbSet;
         public GenericRepository(XulqnaDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -46,9 +46,9 @@ namespace Xulqna.Data.Repositories
             return expression == null ? dbSet : dbSet.Where(expression);
         }
 
-        public Task<T> GetAsync(Expression<Func<T, bool>> expression)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
-            return dbSet.FirstOrDefaultAsync(expression);
+            return await dbSet.FirstOrDefaultAsync(expression);
         }
 
         public async Task<T> UpdateAsync(T entity)

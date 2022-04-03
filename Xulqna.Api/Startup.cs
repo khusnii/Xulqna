@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Xulqna.Data.Contexts;
 using Xulqna.Data.IRepositories;
 using Xulqna.Data.Repositories;
+using Xulqna.Service.Helpers;
 using Xulqna.Service.Interfaces;
 using Xulqna.Service.Services;
 
@@ -31,6 +33,8 @@ namespace Xulqna.Api
             });
 
 
+            services.AddHttpContextAccessor();
+
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
@@ -53,6 +57,11 @@ namespace Xulqna.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xulqna.Api v1"));
+            }
+
+           if( app.ApplicationServices.GetService<IHttpContextAccessor>() is not null)
+            {
+                HttpContextHelper.Accessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
             }
 
             app.UseHttpsRedirection();

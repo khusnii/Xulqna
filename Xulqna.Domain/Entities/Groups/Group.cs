@@ -15,6 +15,8 @@ namespace Xulqna.Domain.Entities.Groups
     public class Group : IAuditable, ILocalizationName
     {
         public Guid Id { get; set; }
+
+
         [JsonIgnore]
         public string NameUz { get; set; }
 
