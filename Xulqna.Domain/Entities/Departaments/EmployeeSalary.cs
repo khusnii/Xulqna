@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xulqna.Domain.Commons;
 using Xulqna.Domain.Enums;
 

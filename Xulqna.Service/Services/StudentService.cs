@@ -1,9 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Xulqna.Data.IRepositories;
 using Xulqna.Domain.Commons;
@@ -21,11 +19,8 @@ namespace Xulqna.Service.Services
         public StudentService(IStudentRepository studentRepository, IGroupRepository groupRepostiroy)
         {
             this.studentRepository = studentRepository;
-            this.GroupRepostiroy = groupRepostiroy;
+            this.groupRepository = groupRepostiroy;
         }
-
-        public IStudentRepository StudentRepository { get; }
-        public IGroupRepository GroupRepostiroy { get; }
 
         public async Task<BaseResponse<Student>> CreateAsync(StudentForCreationDto studentDto)
         {
@@ -34,7 +29,7 @@ namespace Xulqna.Service.Services
             var existStudent = await studentRepository.GetAsync(p => p.Phone == studentDto.Phone);
 
             // Check for Student
-            if(existStudent is not null)
+            if (existStudent is not null)
             {
                 response.Error = new ErrorResponse(400, "Student exists!");
                 return response;
@@ -42,7 +37,7 @@ namespace Xulqna.Service.Services
 
             // Check for group
             var groupStudent = await groupRepository.GetAsync(p => p.Id == studentDto.GroupId);
-            if(groupStudent is null)
+            if (groupStudent is null)
             {
                 response.Error = new ErrorResponse(404, "Group not found!");
                 return response;
@@ -59,8 +54,8 @@ namespace Xulqna.Service.Services
             mappedStudent.Update();
 
             var entity = await studentRepository.CreateAsync(mappedStudent);
-           
-            response.Code = 200;
+
+
             response.Data = entity;
 
             return response;
@@ -77,7 +72,7 @@ namespace Xulqna.Service.Services
             var response = new BaseResponse<IEnumerable<Student>>();
 
             var students = await studentRepository.GetAllAsync(expression);
-  
+
             response.Code = 200;
             response.Data = students;
 

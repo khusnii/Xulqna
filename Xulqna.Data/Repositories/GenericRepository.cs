@@ -1,17 +1,15 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Xulqna.Data.Contexts;
 using Xulqna.Data.IRepositories;
 
 namespace Xulqna.Data.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T: class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
 
 #pragma warning disable
@@ -21,7 +19,7 @@ namespace Xulqna.Data.Repositories
         public GenericRepository(XulqnaDbContext dbContext)
         {
             this.dbContext = dbContext;
-            dbSet = dbContext.Set<T>();
+            this.dbSet = this.dbContext.Set<T>();
 
         }
         public async Task<T> CreateAsync(T entity)
@@ -55,9 +53,9 @@ namespace Xulqna.Data.Repositories
 
         public async Task<T> UpdateAsync(T entity)
         {
-            var entry =  dbSet.Update(entity);
+            var entry = dbSet.Update(entity);
 
-            return  entry.Entity;
+            return entry.Entity;
 
         }
     }

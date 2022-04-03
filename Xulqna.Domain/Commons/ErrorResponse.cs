@@ -1,21 +1,15 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Xulqna.Domain.Commons
+﻿namespace Xulqna.Domain.Commons
 {
     public class ErrorResponse
     {
         public ErrorResponse(int? code = null, string message = null)
         {
-            Code = code;
-            Message = message;
+            this.Code = code;
+            this.Message = message;
         }
-        int? Code;
 
-        string Message;
+        public int? Code { get; set; }
+
+        public string Message { get; set; }
     }
 }

@@ -42,6 +42,6 @@ namespace Xulqna.Domain.Entities.Groups
         public ItemState State { get; set; }
 
         public virtual ICollection<Student> Students { get; set; }
-     
+
     }
 }
